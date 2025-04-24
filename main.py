@@ -15,10 +15,10 @@ if __name__ == '__main__':
     #cleaner.write_to_csv(write_path)
     clean_data = cleaner.df
 
-
-
-
-
     visualizer = DataVisualizer(clean_data)
-    visualizer.rows_columns_count()
-    visualizer.type_distribution()
+    visualizer.plot_property_types_by_province()
+    visualizer.most_least_expensive_locality('Flanders')
+    visualizer.most_least_expensive_locality('Wallonia', metric='price_per_m2', top=12)
+    visualizer.most_least_expensive_locality('Brussels', metric='median_price', type_of_sort=True)
+
+
