@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 
 
@@ -24,7 +23,7 @@ class DataCleaner:
         :param filepath: The path to the file.
         :param sep: The delimiter used in the file.
         :param encoding: The encoding of the file.
-        :return: pd.DataFrame: The loaded data.
+        :return: pd.DataFrame: pandas DataFrame with loaded data from csv file.
         """
         try:
             df = pd.read_csv(filepath, sep=sep, encoding=encoding, index_col=0)
@@ -46,8 +45,10 @@ class DataCleaner:
         Removes columns with missing values exceeding the specified percentage.
         Optionally excludes certain columns from being dropped.
 
+
         :param percent: The percentage threshold of missing values. Columns with missing values greater than or equal to this percentage will be dropped (default is 60%).
         :param exceptions: A list of column names that should not be dropped, even if they have a high percentage of missing values.
+        :param to_drop: column you want to drop at any case (default is None)
         :return: pd.Index: The percentage of missing values for each column.
         """
         if exceptions is None:
@@ -118,15 +119,14 @@ class DataCleaner:
 
             elif self.df[col].dtype in ['float64']:
                 self.df[col] = self.df[col].apply(lambda x: int(x) if not pd.isna(x) else x).astype('Int64')
-                #self.df[col] = self.df[col].fillna(self.df[col].mean()).astype(int)
+                # self.df[col] = self.df[col].fillna(self.df[col].mean()).astype(int)
 
-    # Need to overwrite replace_rare_values to be more abstract
-    def replace_rare_values(self, column: str, replacement: str = 'Unknown', min_amount: int = 20) -> None:
+    def replace_rare_values(self, column: str, replacement=pd.NA, min_amount: int = 20) -> None:
         """
         Replaces rare categories in the specified column with replacement parameter.
-        :param replacement: Replace actual value for this (default = 'Unknown')
+        :param replacement: Replace actual value for this (default is Nan)
         :param column: Column to process
-        :param min_amount: Minimum number of occurrences to keep category (default is 20)
+        :param min_amount: Minimum count to keep category (default is 20)
         :return: None
         """
         value_counts = self.df[column].value_counts()
@@ -151,5 +151,3 @@ class DataCleaner:
             raise PermissionError(f"No permission to write to file: {output_file}")
         except Exception as e:
             raise Exception(f"Unknown error writing file {output_file}: {str(e)}")
-
-

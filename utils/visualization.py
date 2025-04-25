@@ -9,6 +9,7 @@ class DataVisualizer:
     """
     A class to visualize real estate data
     """
+
     def __init__(self, df):
         """
         Initializes the DataVisualizer object with the DataFrame and regions for Flanders, Wallonia, and Brussels.
@@ -73,14 +74,16 @@ class DataVisualizer:
             raise ValueError("Metric must be one of: 'average_price', 'median_price', 'price_per_m2'")
 
         collect_data = self.collect_data(region)
-        most_expensive = collect_data.sort_values('average_price', ascending=type_of_sort).head(top)
+        most_expensive = collect_data.sort_values(metric, ascending=type_of_sort).head(top)
 
         plt.figure(figsize=(12, 6))
         ax = sns.barplot(x=metric, y='locality', data=most_expensive, palette='Blues_r' if type_of_sort else 'Blues_d')
         order = 'Least' if type_of_sort else 'Most'
-        plt.title(f"{order} Expensive Locality in {region} ({metric.replace('_', ' ').title()})")
-        plt.xlabel(f"{metric.replace('_', ' ').title()} (€)")
-        plt.ylabel('Locality')
+        plt.title(f"{order} Expensive Locality in {region} ({metric.replace('_', ' ').title()})",
+                  fontsize=18,
+                  fontweight='bold')
+        plt.xlabel(f"{metric.replace('_', ' ').title()} (€)", fontsize=14, fontweight='bold', )
+        plt.ylabel('Locality', fontsize=14, fontweight='bold')
         ax.xaxis.set_major_formatter(FuncFormatter(self.format_large_numbers))
 
         #  Automatically adjusts the arrangement of elements on the chart

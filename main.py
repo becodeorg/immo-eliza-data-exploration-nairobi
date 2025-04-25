@@ -1,4 +1,3 @@
-import pandas as pd
 from utils.data_processing import DataCleaner
 from utils.visualization import DataVisualizer
 
@@ -17,8 +16,8 @@ if __name__ == '__main__':
 
     visualizer = DataVisualizer(clean_data)
     visualizer.plot_property_types_by_province()
-    visualizer.most_least_expensive_locality('Flanders')
-    visualizer.most_least_expensive_locality('Wallonia', metric='price_per_m2', top=12)
-    visualizer.most_least_expensive_locality('Brussels', metric='median_price', type_of_sort=True)
+    visualizer.most_least_expensive_locality('Flanders', type_of_sort=True)
+    visualizer.most_least_expensive_locality('Wallonia', metric='price_per_m2', top=20)
+    visualizer.most_least_expensive_locality('Brussels', metric='median_price')
 
 
